@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:Hacker_News/src/models/item_model.dart';
 import 'package:http/http.dart' as http;
 
