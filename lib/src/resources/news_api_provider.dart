@@ -8,7 +8,7 @@ class NewsApiProvider {
   Future<List<int>> fetchTopIds() async {
     final response = await http.get("$_url/topstories.json");
     final listIds = json.decode(response.body);
-    return listIds;
+    return listIds.cast<int>();
   }
 
   Future<ItemModel> fetchItem(int id) async {
