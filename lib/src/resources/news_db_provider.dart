@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:Hacker_News/src/models/item_model.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class NewsDbProvider {
-  // Helper Methods
+  // SQL Query
+  final String table = 'Items';
   final String _sql = """ 
     CREATE TABLE Items 
       (
@@ -23,6 +25,20 @@ class NewsDbProvider {
         descendants INTEGER
       )
   """;
+
+  // Helper Methods
+  fetchItem(int id) async {
+    final maps = await db.query(
+      table,
+      columns: null,
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    if (maps.length > 0) {
+      return ItemModel.fromDb(maps.first);
+    }
+    return null;
+  }
 
   Database db;
 
