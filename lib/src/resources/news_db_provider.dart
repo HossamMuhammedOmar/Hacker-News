@@ -26,7 +26,20 @@ class NewsDbProvider {
       )
   """;
 
-  // Helper Methods
+  Database db;
+
+  init() async {
+    Directory directory = await getApplicationDocumentsDirectory();
+    final path = join(directory.path, "items.db");
+    db = await openDatabase(
+      path,
+      version: 1,
+      onCreate: (Database newDb, int version) {
+        newDb.execute(_sql);
+      },
+    );
+  }
+
   fetchItem(int id) async {
     final maps = await db.query(
       table,
@@ -40,17 +53,7 @@ class NewsDbProvider {
     return null;
   }
 
-  Database db;
-
-  init() async {
-    Directory directory = await getApplicationDocumentsDirectory();
-    final path = join(directory.path, "items.db");
-    db = await openDatabase(
-      path,
-      version: 1,
-      onCreate: (Database newDb, int version) {
-        newDb.execute(_sql);
-      },
-    );
+  addItem(ItemModel item) async {
+    db.insert(table, item.toMap());
   }
 }
