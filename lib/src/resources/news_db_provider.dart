@@ -54,6 +54,6 @@ class NewsDbProvider {
   }
 
   addItem(ItemModel item) async {
-    db.insert(table, item.toMap());
+    return db.insert(table, item.toMap());
   }
 }
